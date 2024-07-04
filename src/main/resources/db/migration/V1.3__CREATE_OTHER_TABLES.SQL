@@ -2,7 +2,7 @@ CREATE TABLE matricula (
     id BIGSERIAL NOT NULL PRIMARY KEY,
     ano_lectivo INTEGER NOT NULL,
     aluno_id BIGINT,
-    classe_id BIGINT,
+    classe_id INT,
     data_matricula DATE,
     status_matricula VARCHAR(255) CHECK (status_matricula IN ('ACTIVA', 'TRANCADA', 'CANCELADA', 'CONCLUIDA')),  
     CONSTRAINT fk_aluno FOREIGN KEY (aluno_id) REFERENCES aluno(id),
@@ -14,7 +14,7 @@ CREATE TABLE inscricao (
     data_inscricao DATE,
     ano_lectivo INT,
     aluno_id BIGINT,
-    turma_id BIGINT,
+    turma_id INT,
     status_inscricao VARCHAR(255) CHECK (status_inscricao IN ('INSCRITA', 'PENDENTE', 'CANCELADA')), 
     CONSTRAINT fk_aluno_inscricao FOREIGN KEY (aluno_id) REFERENCES aluno(id),
     CONSTRAINT fk_turma_inscricao FOREIGN KEY (turma_id) REFERENCES turma(id)
@@ -25,9 +25,9 @@ CREATE TABLE frequencia (
     ano_lectivo INTEGER,
     numero_faltas INTEGER,
     aluno_id BIGINT,
-    turma_id BIGINT,
+    turma_id INT,
     professor_id BIGINT,
-    disciplina_id BIGINT,
+    disciplina_id INT,
     nota NUMERIC(10, 2),
     CONSTRAINT fk_aluno_frequencia FOREIGN KEY (aluno_id) REFERENCES aluno(id),
     CONSTRAINT fk_turma_frequencia FOREIGN KEY (turma_id) REFERENCES turma(id),
@@ -37,11 +37,11 @@ CREATE TABLE frequencia (
 
 CREATE TABLE avaliacao (
     id BIGSERIAL PRIMARY KEY,
-    disciplina_id BIGINT,
+    disciplina_id INT,
     aluno_id BIGINT,
     professor_id BIGINT,
-    turma_id BIGINT,
-    classe_id BIGINT,
+    turma_id INT,
+    classe_id INT,
     ano_lectivo INT,
     nota NUMERIC(10, 2),
     tipo_avaliacao VARCHAR(255) CHECK (tipo_avaliacao IN ('ACP', 'ACS', 'TRABALHO')), 
@@ -69,16 +69,18 @@ CREATE TABLE documento (
 );
 
 CREATE TABLE turma_aluno (
-    turma_id BIGINT,
+    turma_id INT,
     aluno_id BIGINT,
     CONSTRAINT fk_turma_aluno FOREIGN KEY (turma_id) REFERENCES turma(id),
     CONSTRAINT fk_aluno_turma FOREIGN KEY (aluno_id) REFERENCES aluno(id)
 );
 
 CREATE TABLE turma_professor (
-    turma_id BIGINT,
+    turma_id INT,
     professor_id BIGINT,
     CONSTRAINT fk_turma_professor FOREIGN KEY (turma_id) REFERENCES turma(id),
     CONSTRAINT fk_professor_turma FOREIGN KEY (professor_id) REFERENCES professor(id)
 );
+
+CREATE SEQUENCE TransacaoFinanceira_SEQ START WITH 1 increment by 50;
 

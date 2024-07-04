@@ -35,7 +35,7 @@ CREATE TABLE turma (
     ano_lectivo VARCHAR(255),
     turno VARCHAR(255) CHECK (turno IN ('MANHA', 'TARDE', 'POSLABORAL')), 
     sala VARCHAR(255),
-    classe_id BIGINT,
+    classe_id INT,
     CONSTRAINT fk_classe FOREIGN KEY (classe_id) REFERENCES classe(id)
 );
 
